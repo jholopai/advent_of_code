@@ -1,7 +1,14 @@
-#include <unistd.h>
 #include <stdio.h>
 #include <stdlib.h>
 #define MAX_SIZE 5
+
+int		error_handler(int *array)
+{
+	if (array)
+		free(array);
+	printf("Something went wrong.\n");
+	exit(EXIT_FAILURE);
+}
 
 int		count_size()
 {
@@ -95,14 +102,11 @@ int		main(void)
 	int		third;
 
 	if (!(size = count_size()))
-		exit(EXIT_FAILURE);
+		return (error_handler(0));
 	if (!(array = read_file(size)))
-		exit(EXIT_FAILURE);
+		return (error_handler(0));
 	if (!(result = find_2020(array)))
-	{
-		free(array);
-		exit(EXIT_FAILURE);
-	}
+		return (error_handler(array));
 	first = result[0];
 	second = result[1];
 	third = result[2];
